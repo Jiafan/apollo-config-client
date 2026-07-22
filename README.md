@@ -104,12 +104,6 @@ python flask_app.py                    # http://localhost:5000/config/database
 # 或 python fastapi_app.py
 ```
 
-## 与 flask_apollo_lab 的关系
-
-本项目（库）原是从 `flask_apollo_lab` 中抽离出的通用部分（`apollo/` + `config/`）。
-`flask_apollo_lab` 作为**消费方 / dogfooding 示例**保留，可改为 `pip install apollo-config-client`
-并 `from apollo_config import ...`，从而把"拷贝两个包"变成一行导入。
-
 ## 生产建议
 
 - **脱敏**：`password` / `bind_password` 等建议标记为 Apollo「私密配置」，对外接口务必脱敏（见 `public_dict()`）。
