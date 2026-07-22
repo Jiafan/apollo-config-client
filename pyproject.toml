@@ -1,10 +1,10 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
 name = "apollo-config-client"
-version = "0.1.0"
+dynamic = ["version"]
 description = "A lightweight, synchronous Apollo config-center client: long-polling hot reload, local cache failover, and access-key HMAC signing. Only depends on requests."
 readme = "README.md"
 license = { text = "MIT" }
@@ -51,3 +51,6 @@ include = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+
+[tool.hatch.version]
+source = "vcs"
