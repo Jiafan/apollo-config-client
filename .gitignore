@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+build/
+dist/
+.eggs/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local config
+.env
+.env.*
+!.env.example
+
+# Apollo local cache
+.apollo_cache/
+
+# IDE
+.idea/
+.vscode/

@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "apollo-config-client"
+version = "0.1.0"
+description = "A lightweight, synchronous Apollo config-center client: long-polling hot reload, local cache failover, and access-key HMAC signing. Only depends on requests."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+authors = [{ name = "Jiafan" }]
+keywords = ["apollo", "config", "configuration", "hot-reload", "long-polling"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "requests>=2.31.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Jiafan/apollo-config-client"
+Repository = "https://github.com/Jiafan/apollo-config-client"
+Documentation = "https://github.com/Jiafan/apollo-config-client#readme"
+
+[project.optional-dependencies]
+models = ["pydantic>=2.5.0"]
+oracle = ["oracledb>=2.0.0"]
+dotenv = ["python-dotenv>=1.0.0"]
+all = ["pydantic>=2.5.0", "oracledb>=2.0.0", "python-dotenv>=1.0.0"]
+test = ["pytest>=8.0.0", "requests-mock>=1.11.0"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["apollo_config"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "apollo_config",
+    "tests",
+    "README.md",
+    "LICENSE",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
