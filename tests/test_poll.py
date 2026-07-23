@@ -72,3 +72,28 @@ def test_long_poll_detects_notification_change(tmp_path):
     assert c.get_configs("application") == {"k": "v2"}
     # 初始加载一次 + 通知触发一次
     assert len(captured) >= 2
+
+
+def test_304_no_change_does_not_raise(tmp_path):
+    # 初始加载返回 200 + 完整配置；通知触发后的增量拉取带 releaseKey，
+    # Apollo 返回 HTTP 304 空 body 表示无变更，不应抛 JSONDecodeError。
+    cfg = {"configurations": {"k": "v1"}, "releaseKey": "rk1"}
+    with requests_mock.Mocker() as m:
+        m.get("http://x/configs/app/default/application", [
+            {"json": cfg},
+            {"status_code": 304, "text": ""},
+        ])
+        m.get("http://x/notifications/v2", [
+            {"json": [{"namespaceName": "application", "notificationId": 2}]},
+            {"json": []},
+        ])
+        c = ApolloClient(
+            app_id="app", config_url="http://x", cache_dir=str(tmp_path),
+            poll_timeout=1, poll_interval=0.1, max_retry_backoff=1,
+        )
+        c.start()
+        time.sleep(1.0)
+        c.stop()
+
+    # 304 应被视为无变更：配置保持初始值，且 releaseKey 不被清空
+    assert c.get_configs("application") == {"k": "v1"}

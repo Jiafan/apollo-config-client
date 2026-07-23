@@ -40,9 +40,9 @@ try:
         __version__ = version("apollo-config-client")
     except PackageNotFoundError:
         # 源码树内直接运行（未安装为发行版）时的兜底值
-        __version__ = "0.1.1"
+        __version__ = "0.1.2"
 except ImportError:  # Python < 3.8
-    __version__ = "0.1.1"
+    __version__ = "0.1.2"
 
 __all__ = [
     "ApolloClient",

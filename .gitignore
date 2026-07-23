@@ -25,6 +25,9 @@ htmlcov/
 # Apollo local cache
 .apollo_cache/
 
+# Local scratch / temp (not part of the library, keep out of repo & releases)
+tmp/
+
 # IDE
 .idea/
 .vscode/

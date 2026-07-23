@@ -153,6 +153,13 @@ class ApolloClient:
             params["ip"] = self.client_ip
 
         resp = self._signed_get(url, params, self.request_timeout)
+
+        # Apollo 在客户端携带的 releaseKey 与服务端最新版本一致时返回 HTTP 304 + 空 body，
+        # 表示"配置未变更"。raise_for_status() 不会拦截 304，且对空 body 调 resp.json() 会抛
+        # JSONDecodeError。这里直接当作无变更处理：不更新内存状态、不写缓存、不触发回调。
+        if resp.status_code == 304 or not resp.text.strip():
+            return {}
+
         resp.raise_for_status()
         data = resp.json()
         new_configs = data.get("configurations", {})
